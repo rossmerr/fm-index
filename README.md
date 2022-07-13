@@ -1,0 +1,2 @@
+# fm-index
+FM-index
