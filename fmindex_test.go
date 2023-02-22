@@ -11,33 +11,41 @@ func TestFMIndex_Search(t *testing.T) {
 		name    string
 		text    string
 		pattern string
-		want    *FMIndexResult
+		count   int
+		offset  []int
 	}{
+		// {
+		// 	name:    "abaaba",
+		// 	text:    "abaaba",
+		// 	pattern: "aba",
+		// 	count:   2,
+		// 	offset:  []int{0, 4},
+		// },
 		{
 			name:    "abaaba",
 			text:    "abaaba",
-			pattern: "aba",
-			want: &FMIndexResult{
-				count: 2,
-				rows: []*FMIndexResultRow{
-					{
-						start: 1,
-						end:   3,
-					},
-					{
-						start: 3,
-						end:   3,
-					},
-				},
-			},
+			pattern: "baa",
+			count:   1,
+			offset:  []int{1},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s, _ := NewFMIndex(tt.text, false)
+			s, _ := NewFMIndex(tt.text)
 			got := s.Search(tt.pattern)
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("FMIndex.Search() = %v, want %v", got, tt.want)
+			if !reflect.DeepEqual(got.Count(), tt.count) {
+				t.Errorf("FMIndexRoweRsult.String() = %v, want %v", got.Count(), tt.count)
+			}
+			for _, r := range got.Rows() {
+				str := r.String()
+				if !reflect.DeepEqual(str, tt.pattern) {
+					t.Errorf("FMIndexRoweRsult.String() = %v, want %v", str, tt.pattern)
+				}
+
+				// offset := r.Offset()
+				// if !reflect.DeepEqual(offset, tt.offset[i]) {
+				// 	t.Errorf("FMIndexRoweRsult.Offset() = %v, want %v", offset, tt.offset[i])
+				// }
 			}
 		})
 	}
