@@ -1,7 +1,6 @@
 package fmindex
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/rossmerr/bwt"
@@ -14,6 +13,7 @@ type FMIndex struct {
 	f *wavelettree.WaveletTree
 	// last column of the BWT matrix
 	l               *wavelettree.WaveletTree
+	sa              []int
 	prefix          *prefixtree.Prefix
 	caseinsensitive bool
 }
@@ -48,12 +48,11 @@ func NewFMIndex(text string, opts ...FMIndexOption) (*FMIndex, error) {
 		text = strings.ToUpper(text)
 	}
 
-	first, last, err := bwt.BwtFirstLast(text)
+	first, last, sa, err := bwt.BwtFirstLastSuffix(text)
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Println(first)
+	index.sa = sa
 	index.f = wavelettree.NewWaveletTree(first, *index.prefix)
 	index.l = wavelettree.NewWaveletTree(last, *index.prefix)
 
@@ -70,8 +69,14 @@ func (s *FMIndex) Count(pattern string) int {
 	return l - f
 }
 
-func (s *FMIndex) Locate(pattern string) int {
-	return 0
+func (s *FMIndex) Locate(pattern string) []int {
+	f, l := s.query(pattern)
+	result := []int{}
+	for i := f; i < l; i++ {
+		result = append(result, s.sa[i])
+
+	}
+	return result
 
 }
 
@@ -91,12 +96,8 @@ func (s *FMIndex) query(pattern string) (top, bottom int) {
 	i := length - 2
 	for i >= 0 && bottom > top {
 		next = rune(pattern[i])
-
-		fmt.Println("current " + string(next))
 		n1 := s.l.Rank(next, top)
 		n2 := s.l.Rank(next, bottom)
-		fmt.Println(n1)
-		fmt.Println(n2)
 		skip := s.f.Select(next, 0)
 		top = (n1 + skip)
 		bottom = (n2 + skip)
