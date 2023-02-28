@@ -10,6 +10,10 @@ github.com/rossmerr/bwt v0.0.0-20230209114715-4278fad8d26b h1:jEzElfmgTkiGQRa8yg
 github.com/rossmerr/bwt v0.0.0-20230209114715-4278fad8d26b/go.mod h1:Blhnq5p8A6dyyhB01CiM08FTAk/TuGItL7HmSIkONq4=
 github.com/rossmerr/bwt v0.0.0-20230222232111-6576dc27ca94 h1:niqvA0HgDR14duuss60Q8dfqQ/Uw9i7g8WWdSrLIC0s=
 github.com/rossmerr/bwt v0.0.0-20230222232111-6576dc27ca94/go.mod h1:Blhnq5p8A6dyyhB01CiM08FTAk/TuGItL7HmSIkONq4=
+github.com/rossmerr/bwt v0.0.0-20230228095029-d00fc9100934 h1:iZpqHmQJ7vZ/FKBbuZ+cMXJZ+CZZ4qEOxnp6El7anUg=
+github.com/rossmerr/bwt v0.0.0-20230228095029-d00fc9100934/go.mod h1:Blhnq5p8A6dyyhB01CiM08FTAk/TuGItL7HmSIkONq4=
+github.com/rossmerr/bwt v0.0.0-20230228102343-794f7ffd71c5 h1:zr7I/Rnm+DJ8FO663r/+kFNNJC9jyb6gVhzNFQbmNcI=
+github.com/rossmerr/bwt v0.0.0-20230228102343-794f7ffd71c5/go.mod h1:Blhnq5p8A6dyyhB01CiM08FTAk/TuGItL7HmSIkONq4=
 github.com/rossmerr/wavelettree v0.0.0-20230206123720-f03849e519c3 h1:W31Iy6F19ALiYcJ3riDOZhEbvNrjfgkhxDTZc1YhzaI=
 github.com/rossmerr/wavelettree v0.0.0-20230206123720-f03849e519c3/go.mod h1:OEBLDd73UWlCsJ64r7OPzWfpATLDO6GQ8XpqAZM+Lts=
 github.com/rossmerr/wavelettree v0.0.0-20230209154554-6f55b4a08aa6 h1:846X5UhGZwshKatWFxgDWufAX/gamw5hsNg5zL7lg6E=

@@ -12,10 +12,13 @@ type FMIndex struct {
 	// first column of the BWT matrix
 	f *wavelettree.WaveletTree
 	// last column of the BWT matrix
-	l               *wavelettree.WaveletTree
-	sa              []int
+	l *wavelettree.WaveletTree
+	// suffix array
+	sa bwt.Suffix
+	// prefix tree
 	prefix          *prefixtree.Prefix
 	caseinsensitive bool
+	compression     int
 }
 
 type FMIndexOption func(f *FMIndex)
@@ -29,6 +32,12 @@ func WithCaseInsensitive(caseinsensitive bool) FMIndexOption {
 func WithPrefixTree(prefix prefixtree.Prefix) FMIndexOption {
 	return func(f *FMIndex) {
 		f.prefix = &prefix
+	}
+}
+
+func WithCompression(compression int) FMIndexOption {
+	return func(s *FMIndex) {
+		s.compression = compression
 	}
 }
 
@@ -48,7 +57,7 @@ func NewFMIndex(text string, opts ...FMIndexOption) (*FMIndex, error) {
 		text = strings.ToUpper(text)
 	}
 
-	first, last, sa, err := bwt.BwtFirstLastSuffix(text)
+	first, last, sa, err := bwt.BwtFirstLastSuffix[bwt.SampleSuffixArray](text, bwt.WithCompression(index.compression))
 	if err != nil {
 		return nil, err
 	}
@@ -73,11 +82,17 @@ func (s *FMIndex) Locate(pattern string) []int {
 	f, l := s.query(pattern)
 	result := []int{}
 	for i := f; i < l; i++ {
-		result = append(result, s.sa[i])
-
+		result = append(result, s.findSuffix(i, 0))
 	}
 	return result
+}
 
+func (s *FMIndex) findSuffix(i, count int) int {
+	if r, ok := s.sa.Get(i); ok {
+		return r + count
+	} else {
+		return s.findSuffix(i-1, count+1)
+	}
 }
 
 func (s *FMIndex) query(pattern string) (top, bottom int) {
