@@ -34,6 +34,8 @@ github.com/rossmerr/bwt v0.0.0-20230302113203-f9b984054cc9 h1:nQqFWmK2MIDKe2tlNP
 github.com/rossmerr/bwt v0.0.0-20230302113203-f9b984054cc9/go.mod h1:Blhnq5p8A6dyyhB01CiM08FTAk/TuGItL7HmSIkONq4=
 github.com/rossmerr/bwt v0.0.0-20230302153108-442ef5b8fabe h1:+sm8XE/m0rK0xEy/pFpjlXhUS1fDUwiu4GITJSJAxcg=
 github.com/rossmerr/bwt v0.0.0-20230302153108-442ef5b8fabe/go.mod h1:Blhnq5p8A6dyyhB01CiM08FTAk/TuGItL7HmSIkONq4=
+github.com/rossmerr/bwt v0.0.0-20230303132355-42875a6f2a98 h1:mSblAi++vfbilMWqvYPwk12Xjb0oz4G2aX5QIZ3tMUU=
+github.com/rossmerr/bwt v0.0.0-20230303132355-42875a6f2a98/go.mod h1:Blhnq5p8A6dyyhB01CiM08FTAk/TuGItL7HmSIkONq4=
 github.com/rossmerr/wavelettree v0.0.0-20230206123720-f03849e519c3 h1:W31Iy6F19ALiYcJ3riDOZhEbvNrjfgkhxDTZc1YhzaI=
 github.com/rossmerr/wavelettree v0.0.0-20230206123720-f03849e519c3/go.mod h1:OEBLDd73UWlCsJ64r7OPzWfpATLDO6GQ8XpqAZM+Lts=
 github.com/rossmerr/wavelettree v0.0.0-20230209154554-6f55b4a08aa6 h1:846X5UhGZwshKatWFxgDWufAX/gamw5hsNg5zL7lg6E=
@@ -66,3 +68,5 @@ github.com/rossmerr/wavelettree v0.0.0-20230302161902-b7e25de6c7a2 h1:mCXTor0ITH
 github.com/rossmerr/wavelettree v0.0.0-20230302161902-b7e25de6c7a2/go.mod h1:/U+l5pfJ9ANfhUZ+7H/3K6D9tjUa6H0lv4QLWF6g3l8=
 github.com/rossmerr/wavelettree v0.0.0-20230302170838-2fe950ae3563 h1:JR2FF9CViDQlzDAzrlzSG4uFyOWg+yLBKQTRObrVBzI=
 github.com/rossmerr/wavelettree v0.0.0-20230302170838-2fe950ae3563/go.mod h1:HSnCqId1PVBfNcJEQTRc7BLwuOuKHhhcLiVxEw+dSvY=
+github.com/rossmerr/wavelettree v0.0.0-20230303124420-26768f945dad h1:Nq2rnfsn54z3ebfY0ZO4h0Z9ezjLdWojoU/HDFw8nLI=
+github.com/rossmerr/wavelettree v0.0.0-20230303124420-26768f945dad/go.mod h1:HSnCqId1PVBfNcJEQTRc7BLwuOuKHhhcLiVxEw+dSvY=

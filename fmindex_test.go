@@ -102,13 +102,55 @@ func TestFMIndex_Extract(t *testing.T) {
 		length int
 		want   string
 	}{
-		// {
-		// 	name:   "abaaba",
-		// 	text:   "abaaba",
-		// 	offset: 0,
-		// 	length: 3,
-		// 	want:   "aba",
-		// },
+		{
+			name:   "fox",
+			text:   "The quick brown fox jumps over the lazy dog",
+			want:   "do",
+			offset: 40,
+			length: 2,
+		},
+		{
+			name:   "fox",
+			text:   "The quick brown fox jumps over the lazy dog",
+			want:   "jumps",
+			offset: 20,
+			length: 5,
+		},
+		{
+			name:   "abaaba",
+			text:   "abaaba",
+			offset: 0,
+			length: 3,
+			want:   "aba",
+		},
+		{
+			name:   "abaaba",
+			text:   "abaaba",
+			offset: 1,
+			length: 3,
+			want:   "baa",
+		},
+		{
+			name:   "abaaba",
+			text:   "abaaba",
+			offset: 1,
+			length: 4,
+			want:   "baab",
+		},
+		{
+			name:   "abaaba",
+			text:   "abaaba",
+			offset: 2,
+			length: 4,
+			want:   "aaba",
+		},
+		{
+			name:   "abaaba",
+			text:   "abaaba",
+			offset: 4,
+			length: 2,
+			want:   "ba",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

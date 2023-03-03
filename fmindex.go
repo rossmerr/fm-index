@@ -1,7 +1,6 @@
 package fmindex
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/rossmerr/bwt"
@@ -54,56 +53,71 @@ func NewFMIndex(text string, opts ...FMIndexOption) (*FMIndex, error) {
 		text = strings.ToUpper(text)
 	}
 
-	first, last, sa, err := bwt.BwtFirstLastSuffix[suffixarray.SuffixArray](text, suffixarray.WithCompression(index.compression))
+	first, last, sa, err := bwt.BwtFirstLastSuffix[suffixarray.SampleSuffixArray](text, suffixarray.WithCompression(index.compression))
 	if err != nil {
 		return nil, err
 	}
 
 	if index.prefix == nil {
-		pt := prefixtree.NewHuffmanCodeTree(first)
-		index.prefix = &pt
+		index.prefix = prefixtree.NewHuffmanCodeTree(first)
 	}
 
 	index.suffix = sa
-	index.f = wavelettree.NewWaveletTree(first, *index.prefix)
-	index.l = wavelettree.NewWaveletTree(last, *index.prefix)
+	index.f = wavelettree.NewWaveletTree(first, index.prefix)
+	index.l = wavelettree.NewWaveletTree(last, index.prefix)
 
 	return index, nil
 }
 
 func (s *FMIndex) Extract(offset, length int) string {
 	result := make([]rune, length)
-	iterator := s.suffix.Enumerate()
-	find := map[int]int{}
-	for iterator.HasNext() {
-		currentElement, index := iterator.Next()
-		find[index] = currentElement
-	}
 
-	rs := NewReveriseSuffix(s.suffix)
+	mappedSuffix := map[int]int{}
+	iterator := s.suffix.Enumerate()
+	for iterator.HasNext() {
+		k, i := iterator.Next()
+		mappedSuffix[k] = i
+	}
 
 	count := 0
 	for i := offset; i < offset+length; i++ {
-		if rs.Has(i) {
-			r := s.f.Access(i)
-			//s.prefix[]
+		index, ok := mappedSuffix[i]
+		if ok {
+			r := s.f.Access(index)
 			result[count] = r
 			count++
+			continue
 		}
-		p := rs.Walk(i)
-		//	s.f.
-		//l := find[i]
-		r := s.f.Access(p)
-		s.f.Rank(r, p)
 
-		//s.l.
-		fmt.Println((string(r)))
+		p := s.walkBackwoodsToNearest(i, mappedSuffix)
+
+		r := s.f.Access(p)
+
 		result[count] = r
 		count++
 	}
 	return string(result)
-	//return ""
+}
 
+func (s *FMIndex) walkBackwoodsToNearest(index int, mappedSuffix map[int]int) int {
+	count := 0
+	for {
+		i, ok := mappedSuffix[index]
+		if ok {
+			index = i
+			break
+		}
+		index--
+		count++
+	}
+
+	for i := 0; i < count; i++ {
+		r := s.f.Access(index)
+		rank, _ := s.f.Rank(r, index)
+		index = s.l.Select(r, rank)
+	}
+
+	return index
 }
 
 func (s *FMIndex) Count(pattern string) int {
@@ -115,14 +129,29 @@ func (s *FMIndex) Locate(pattern string) []int {
 	f, l := s.query(pattern)
 	result := []int{}
 	for i := f; i < l; i++ {
-		r := s.suffix.Get(i)
+		index := s.walkToNearest(i, 0)
+		r := s.suffix.Get(index)
 		result = append(result, r)
 	}
 	if f == l {
-		r := s.suffix.Get(f)
+		index := s.walkToNearest(f, 0)
+
+		r := s.suffix.Get(index)
 		result = append(result, r)
 	}
 	return result
+}
+
+func (s *FMIndex) walkToNearest(index, count int) int {
+	b := s.suffix.Has(index)
+	if b {
+		return index + count
+	}
+	count++
+	a := s.l.Access(index)
+	r, _ := s.l.Rank(a, index)
+	nextIndex := s.f.Select(a, r)
+	return s.walkToNearest(nextIndex, count)
 }
 
 func (s *FMIndex) query(pattern string) (top, bottom int) {
@@ -137,7 +166,6 @@ func (s *FMIndex) query(pattern string) (top, bottom int) {
 
 	n1, _ := s.f.Rank(next, 0)
 	top = s.f.Select(next, n1)
-
 	n2, _ := s.f.Rank(next, s.l.Length())
 	bottom = s.f.Select(next, n2+1)
 
@@ -153,33 +181,4 @@ func (s *FMIndex) query(pattern string) (top, bottom int) {
 	}
 
 	return
-}
-
-type ReveriseSuffix struct {
-	find map[int]int
-}
-
-func NewReveriseSuffix(suffix suffixarray.Suffix) *ReveriseSuffix {
-	iterator := suffix.Enumerate()
-	find := map[int]int{}
-	for iterator.HasNext() {
-		currentElement, index := iterator.Next()
-		find[index] = currentElement
-	}
-	return &ReveriseSuffix{
-		find: find,
-	}
-}
-
-func (s *ReveriseSuffix) Walk(index int) int {
-	for _, ok := s.find[index]; ok; index-- {
-		return index
-	}
-
-	return -1
-}
-
-func (s *ReveriseSuffix) Has(index int) bool {
-	_, ok := s.find[index]
-	return ok
 }
