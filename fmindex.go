@@ -81,43 +81,36 @@ func (s *FMIndex) Extract(offset, length int) string {
 
 	count := 0
 	for i := offset; i < offset+length; i++ {
-		index, ok := mappedSuffix[i]
-		if ok {
+		if index, ok := mappedSuffix[i]; ok {
 			r := s.f.Access(index)
 			result[count] = r
 			count++
 			continue
 		}
+		index := i - 1
+		hops := 1
 
-		p := s.walkBackwoodsToNearest(i, mappedSuffix)
+		for {
+			if i, ok := mappedSuffix[index]; ok {
+				index = i
+				break
+			}
+			index--
+			hops++
+		}
 
-		r := s.f.Access(p)
+		for i := 0; i < hops; i++ {
+			r := s.f.Access(index)
+			rank, _ := s.f.Rank(r, index)
+			index = s.l.Select(r, rank)
+		}
+
+		r := s.f.Access(index)
 
 		result[count] = r
 		count++
 	}
 	return string(result)
-}
-
-func (s *FMIndex) walkBackwoodsToNearest(index int, mappedSuffix map[int]int) int {
-	count := 0
-	for {
-		i, ok := mappedSuffix[index]
-		if ok {
-			index = i
-			break
-		}
-		index--
-		count++
-	}
-
-	for i := 0; i < count; i++ {
-		r := s.f.Access(index)
-		rank, _ := s.f.Rank(r, index)
-		index = s.l.Select(r, rank)
-	}
-
-	return index
 }
 
 func (s *FMIndex) Count(pattern string) int {
