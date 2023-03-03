@@ -13,3 +13,17 @@ Implements the following operation
 - Count
 - Locate
 - Extract
+
+```go
+
+index, err := NewFMIndex("The quick brown fox jumps over the lazy dog", WithCompression(tt.compression))
+
+count := index.Count("jumps")
+fmt.Println(count) // 1
+
+matches := index.Locate("jumps")
+fmt.Println(matches) // []int{20}
+
+text := index.Extract(matches[0], 5)
+fmt.Println(text) // "jumps"
+```
