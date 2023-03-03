@@ -19,7 +19,7 @@ type FMIndex struct {
 	// prefix tree
 	prefix          *prefixtree.Prefix
 	caseinsensitive bool
-	compression     int
+	compression     *int
 }
 
 type FMIndexOption func(f *FMIndex)
@@ -38,7 +38,9 @@ func WithPrefixTree(prefix prefixtree.Prefix) FMIndexOption {
 
 func WithCompression(compression int) FMIndexOption {
 	return func(s *FMIndex) {
-		s.compression = compression
+		if compression >= 2 {
+			s.compression = &compression
+		}
 	}
 }
 
@@ -53,7 +55,12 @@ func NewFMIndex(text string, opts ...FMIndexOption) (*FMIndex, error) {
 		text = strings.ToUpper(text)
 	}
 
-	first, last, sa, err := bwt.BwtFirstLastSuffix[suffixarray.SampleSuffixArray](text, suffixarray.WithCompression(index.compression))
+	if index.compression == nil {
+		two := 2
+		index.compression = &two
+	}
+
+	first, last, sa, err := bwt.BwtFirstLastSuffix[suffixarray.SampleSuffixArray](text, suffixarray.WithCompression(*index.compression))
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +77,7 @@ func NewFMIndex(text string, opts ...FMIndexOption) (*FMIndex, error) {
 }
 
 func (s *FMIndex) Extract(offset, length int) string {
-	result := make([]rune, length)
+	result := []rune{}
 
 	mappedSuffix := map[int]int{}
 	iterator := s.suffix.Enumerate()
@@ -79,36 +86,32 @@ func (s *FMIndex) Extract(offset, length int) string {
 		mappedSuffix[k] = i
 	}
 
-	count := 0
+	index := 0
+	ok := false
 	for i := offset; i < offset+length; i++ {
-		if index, ok := mappedSuffix[i]; ok {
-			r := s.f.Access(index)
-			result[count] = r
-			count++
-			continue
-		}
-		index := i - 1
-		hops := 1
+		if index, ok = mappedSuffix[i]; !ok {
+			index = i - 1
+			hops := 1
 
-		for {
-			if i, ok := mappedSuffix[index]; ok {
-				index = i
-				break
+			for {
+				if i, ok := mappedSuffix[index]; ok {
+					index = i
+					break
+				}
+				index--
+				hops++
 			}
-			index--
-			hops++
-		}
 
-		for i := 0; i < hops; i++ {
-			r := s.f.Access(index)
-			rank, _ := s.f.Rank(r, index)
-			index = s.l.Select(r, rank)
+			for i := 0; i < hops; i++ {
+				r := s.f.Access(index)
+				rank, _ := s.f.Rank(r, index)
+				index = s.l.Select(r, rank)
+			}
 		}
 
 		r := s.f.Access(index)
+		result = append(result, r)
 
-		result[count] = r
-		count++
 	}
 	return string(result)
 }
@@ -174,4 +177,18 @@ func (s *FMIndex) query(pattern string) (top, bottom int) {
 	}
 
 	return
+}
+
+func (s *FMIndex) CaseInsensitive() bool {
+	return s.caseinsensitive
+}
+
+func (s *FMIndex) PrefixTree() *prefixtree.Prefix {
+	return s.prefix
+
+}
+
+func (s *FMIndex) Compression() int {
+	return *s.compression
+
 }

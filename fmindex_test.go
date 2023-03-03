@@ -96,18 +96,20 @@ func TestFMIndex_Locate(t *testing.T) {
 func TestFMIndex_Extract(t *testing.T) {
 
 	tests := []struct {
-		name   string
-		text   string
-		offset int
-		length int
-		want   string
+		name        string
+		text        string
+		offset      int
+		length      int
+		want        string
+		compression int
 	}{
 		{
-			name:   "fox",
-			text:   "The quick brown fox jumps over the lazy dog",
-			want:   "do",
-			offset: 40,
-			length: 2,
+			name:        "fox",
+			text:        "The quick brown fox jumps over the lazy dog",
+			want:        "do",
+			offset:      40,
+			length:      2,
+			compression: 4,
 		},
 		{
 			name:   "fox",
@@ -154,7 +156,7 @@ func TestFMIndex_Extract(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s, _ := NewFMIndex(tt.text)
+			s, _ := NewFMIndex(tt.text, WithCompression(tt.compression))
 			got := s.Extract(tt.offset, tt.length)
 			if got != tt.want {
 				t.Errorf("FMIndex.Extract() = %v, want %v", got, tt.want)
