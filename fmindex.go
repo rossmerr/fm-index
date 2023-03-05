@@ -60,7 +60,7 @@ func NewFMIndex(text string, opts ...FMIndexOption) (*FMIndex, error) {
 		index.compression = &two
 	}
 
-	first, last, sa, err := bwt.BwtFirstLastSuffix[suffixarray.SampleSuffixArray](text, suffixarray.WithCompression(*index.compression))
+	first, last, sa, err := bwt.FirstLastSuffix(text, bwt.WithSampleRate(*index.compression))
 	if err != nil {
 		return nil, err
 	}

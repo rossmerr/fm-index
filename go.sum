@@ -36,6 +36,8 @@ github.com/rossmerr/bwt v0.0.0-20230302153108-442ef5b8fabe h1:+sm8XE/m0rK0xEy/pF
 github.com/rossmerr/bwt v0.0.0-20230302153108-442ef5b8fabe/go.mod h1:Blhnq5p8A6dyyhB01CiM08FTAk/TuGItL7HmSIkONq4=
 github.com/rossmerr/bwt v0.0.0-20230303132355-42875a6f2a98 h1:mSblAi++vfbilMWqvYPwk12Xjb0oz4G2aX5QIZ3tMUU=
 github.com/rossmerr/bwt v0.0.0-20230303132355-42875a6f2a98/go.mod h1:Blhnq5p8A6dyyhB01CiM08FTAk/TuGItL7HmSIkONq4=
+github.com/rossmerr/bwt v0.0.0-20230305114309-5db647f40fc6 h1:npRJY4D/sSiUvP2z6X3OyIguLFM0GIkNtAzBAotZh8M=
+github.com/rossmerr/bwt v0.0.0-20230305114309-5db647f40fc6/go.mod h1:Blhnq5p8A6dyyhB01CiM08FTAk/TuGItL7HmSIkONq4=
 github.com/rossmerr/wavelettree v0.0.0-20230206123720-f03849e519c3 h1:W31Iy6F19ALiYcJ3riDOZhEbvNrjfgkhxDTZc1YhzaI=
 github.com/rossmerr/wavelettree v0.0.0-20230206123720-f03849e519c3/go.mod h1:OEBLDd73UWlCsJ64r7OPzWfpATLDO6GQ8XpqAZM+Lts=
 github.com/rossmerr/wavelettree v0.0.0-20230209154554-6f55b4a08aa6 h1:846X5UhGZwshKatWFxgDWufAX/gamw5hsNg5zL7lg6E=
