@@ -6,6 +6,8 @@ github.com/rossmerr/bitvector v0.0.0-20230214194829-0930f1213f6c h1:oev4YhkenpOP
 github.com/rossmerr/bitvector v0.0.0-20230214194829-0930f1213f6c/go.mod h1:SspG0ls/bZbhrZZh2jmLXxtfk9Chif7C+acDx1qT1KM=
 github.com/rossmerr/bitvector v0.0.0-20230302170651-1a11a30098d3 h1:pmfZe4jr7pYwMqTP1x8tSrbvQ3J1rlODzrf6VOi1suQ=
 github.com/rossmerr/bitvector v0.0.0-20230302170651-1a11a30098d3/go.mod h1:SspG0ls/bZbhrZZh2jmLXxtfk9Chif7C+acDx1qT1KM=
+github.com/rossmerr/bitvector v0.0.0-20230305161122-f4d22af85f5e h1:2eJN61eFJFne5lwXi8yGZEiqOzXTYMztVggjzCyXXag=
+github.com/rossmerr/bitvector v0.0.0-20230305161122-f4d22af85f5e/go.mod h1:SspG0ls/bZbhrZZh2jmLXxtfk9Chif7C+acDx1qT1KM=
 github.com/rossmerr/bwt v0.0.0-20220717132418-2cf0f663923d h1:ek/eD8B2VH7uotqacgAUm1MOtC6LGXt0G6U2nNb8r9M=
 github.com/rossmerr/bwt v0.0.0-20220717132418-2cf0f663923d/go.mod h1:B3p3lYcx2oqJ/dGzBzjZP8gCZV2OAU8pJiCShvE48rY=
 github.com/rossmerr/bwt v0.0.0-20230209114715-4278fad8d26b h1:jEzElfmgTkiGQRa8ygXHn6zHMXUlz+a8u8ev45ybtzQ=
@@ -72,3 +74,5 @@ github.com/rossmerr/wavelettree v0.0.0-20230302170838-2fe950ae3563 h1:JR2FF9CViD
 github.com/rossmerr/wavelettree v0.0.0-20230302170838-2fe950ae3563/go.mod h1:HSnCqId1PVBfNcJEQTRc7BLwuOuKHhhcLiVxEw+dSvY=
 github.com/rossmerr/wavelettree v0.0.0-20230303124420-26768f945dad h1:Nq2rnfsn54z3ebfY0ZO4h0Z9ezjLdWojoU/HDFw8nLI=
 github.com/rossmerr/wavelettree v0.0.0-20230303124420-26768f945dad/go.mod h1:HSnCqId1PVBfNcJEQTRc7BLwuOuKHhhcLiVxEw+dSvY=
+github.com/rossmerr/wavelettree v0.0.0-20230305172621-b74db573f058 h1:ktxLoR3XBO1RN9PLtYFtNMnC4uBJP222vhZXLK5sJog=
+github.com/rossmerr/wavelettree v0.0.0-20230305172621-b74db573f058/go.mod h1:1tIBorBDNE59CIxJ0MudiRnp6B3NjemU0gVF2t5wHwY=
