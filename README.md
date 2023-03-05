@@ -8,22 +8,29 @@ A [FM-index](https://en.wikipedia.org/wiki/FM-index) using [Wavelet Tree's](http
 
 The Prefix Tree can be shared across FM-indexs to reduce storage needs.
 
-Implements the following operation
+```go
+index, err := NewFMIndex("The quick brown fox jumps over the lazy dog", WithCompression(2))
+```
 
-- Count
-- Locate
-- Extract
+## Operation
+
+### Count
 
 ```go
-
-index, err := NewFMIndex("The quick brown fox jumps over the lazy dog", WithCompression(tt.compression))
-
 count := index.Count("jumps")
 fmt.Println(count) // 1
+```
 
+### Locate
+
+```go
 matches := index.Locate("jumps")
 fmt.Println(matches) // []int{20}
+```
 
+### Extract
+
+```go
 text := index.Extract(matches[0], 5)
 fmt.Println(text) // "jumps"
 ```
